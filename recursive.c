@@ -1,29 +1,169 @@
+#include <stdio.h>
+#include <stdlib.h>
+
 extern int **g_ref_grid;
 extern int **g_main_grid;
 extern int g_size;
+extern char *input_str;
 
+void	ft_print_grid(int size);
+int		ft_solver(char *str, int size);
 
-int ft_count_jumps(int target, int x, int y, int z)
+int ft_check_right_jumps(void)
 {
 	int i;
+	int j;
+	int k;
+	int count;
 
 	i = 0;
-	while (i < size)
+	while (i < g_size)
 	{
-
+		j = 0;
+		count = 0;
+		while (j < g_size - 1)
+		{
+			k = j + 1;
+			while (k < g_size)
+			{
+				//printf("i = %d, j = %d, k = %d, value is %d vs %d\n", i, j ,k, g_main_grid[i][j], g_main_grid[i][k]);
+				//printf("%d\n", g_main_grid[i][k]);
+				if (g_main_grid[i][j] < g_main_grid[i][k])
+				{
+					count++;
+					break ;
+				}
+				k++;
+			}
+			j++;
+		}
+		if (g_ref_grid[i + 1][0] != count)
+			return (0);
+		i++;
 	}
+	return (1);
 }
 
-int ft_check_jumps(int x, int y, int z)
+int ft_check_down_jumps(void)
 {
-	//go right
-	g_ref_grid[x][0];
-	//go down
-	g_ref_grid[0][y];
-	//go up
-	g_ref_grid[x][y + g_size];
+	int i;
+	int j;
+	int k;
+	int count;
 
-	g_ref_grid[x + g_size][y];
+	i = 0;
+	while (i < g_size)
+	{
+		j = 0;
+		count = 0;
+		while (j < g_size - 1)
+		{
+			k = j + 1;
+			while (k < g_size)
+			{
+				if (g_main_grid[j][i] < g_main_grid[k][i])
+				{
+					count++;
+					break ;
+				}
+				k++;
+			}
+			j++;
+		}
+		if (g_ref_grid[0][i + 1] != count)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int ft_check_left_jumps(void)
+{
+	int i;
+	int j;
+	int k;
+	int count;
+
+	i = 1;
+	while (i <= g_size)
+	{
+		j = g_size - 1;
+		count = 0;
+		while (j < (g_size - 1) * -1)
+		{
+			k = j - 1;
+			while (k < g_size * -1)
+			{
+				//printf("i = %d, j = %d, k = %d, value is %d vs %d\n", i, j ,k, g_main_grid[i][j], g_main_grid[i][k]);
+				//printf("%d\n", g_main_grid[i][k]);
+				if (g_main_grid[i][j] < g_main_grid[i][k])
+				{
+					count++;
+					break ;
+				}
+				k--;
+			}
+			j--;
+		}
+		if (g_ref_grid[i - 1][g_size] != count)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int ft_check_up_jumps(void)
+{
+	int i;
+	int j;
+	int k;
+	int count;
+
+	i = 1;
+	while (i <= g_size)
+	{
+		j = g_size - 1;
+		count = 0;
+		while (j < (g_size - 1) * -1)
+		{
+			k = j - 1;
+			while (k < g_size * -1)
+			{
+				if (g_main_grid[j][i] < g_main_grid[k][i])
+				{
+					count++;
+					break ;
+				}
+				k--;
+			}
+			j--;
+		}
+		if (g_ref_grid[g_size][i - 1] != count)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int ft_check_all_jumps(void)
+{
+	//goes right
+	if (ft_check_right_jumps() != 1)
+		return (0);
+	printf("%s\n", "check2");
+	//goes down
+	if (ft_check_down_jumps() != 1)
+		return (0);
+	printf("%s\n", "check3");
+	//goes left
+	if (ft_check_left_jumps() != 1)
+		return (0);
+	printf("%s\n", "check4");
+	//goes up
+	if (ft_check_up_jumps() != 1)
+		return (0);
+	printf("%s\n", "check5");
+	return (1);
 }
 
 int ft_check_rules(int x, int y, int z)
@@ -52,7 +192,7 @@ int ft_check_rules(int x, int y, int z)
 		}
 		j++;
 	}
-	return (ft_check_jumps) ? 1 : 0;
+	return (1);
 }
 
 int ft_recursive(void)
@@ -60,11 +200,9 @@ int ft_recursive(void)
 	int i;
 	int j;
 	int z;
-	int flag;
 
 	i = 0;
 	z = 1;
-	flag = 0;
 	while (i < g_size)
 	{
 		j = 0;
@@ -80,11 +218,9 @@ int ft_recursive(void)
 					if (ft_check_rules(i, j, z) == 1)
 					{
 						g_main_grid[i][j] = z;
-						ft_recursive();
 					}
 					z++;
 				}
-				return (0);
 			}
 			j++;
 		}
@@ -92,6 +228,13 @@ int ft_recursive(void)
 		i++;
 		//printf("%d\n", i);
 	}
-	flag = 1;
+	//free(g_ref_grid);
+	//free(g_main_grid);
+	printf("check all jump is %d\n", ft_check_all_jumps());
+	if (ft_check_all_jumps() != 1)
+	{
+		ft_solver(input_str, g_size);
+	}
+	ft_print_grid(g_size);
 	return (0);
 }

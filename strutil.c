@@ -33,8 +33,8 @@ int ft_validate_src(char *str, int size)
 
 	if (ft_strlen(str) != (size * 4) + (size * 4) - 1)
 	{
-		printf("%s\n", "check2");
-		printf("%d\n", ft_strlen(str));
+		//printf("%s\n", "check2");
+		//printf("%d\n", ft_strlen(str));
 		return (0);
 	}
 	i = 0;
@@ -44,7 +44,7 @@ int ft_validate_src(char *str, int size)
 		{
 			if (str[i] != ' ')
 			{
-				printf("%s\n", "check3");
+				//printf("%s\n", "check3");
 				return (0);
 			}
 		}
@@ -52,7 +52,7 @@ int ft_validate_src(char *str, int size)
 		{
 			if (str[i] < 0 && str[i] > size + 1)
 			{
-				printf("%s\n", "check4");
+				//printf("%s\n", "check4");
 				return (0);
 			}
 		}
