@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 extern int **g_ref_grid;
 extern int **g_main_grid;
 int ft_recursive(void);
@@ -5,17 +7,27 @@ int ft_recursive(void);
 // Creates a reference grid with input numbers
 int ft_fill_ref_grid(int *input, int size)
 {
-	int i = 0;
+	int i;
+
+	i = 0;
+
 	while (i < size * size)
 	{
+		printf("%s\n", "check10");
 		if (i < size)
-			g_ref_grid[0][i] = input[i];
+			g_ref_grid[0][i % size] = input[i];
+			//printf("%s\n", "check11");
 		if (i >= size && i < size * 2)
-			g_ref_grid[size + 2][i] = input[i];
+			g_ref_grid[size + 1][i % size] = input[i];
+			//printf("%s\n", "check12");
 		if (i >= size * 2 && i < size * 3)
-			g_ref_grid[i][0] = input[i];
+			g_ref_grid[i % size][0] = input[i];
+			//printf("%s\n", "check13");
 		if (i >= size * 3 && i < size * 4)
-			g_ref_grid[i][size + 2] = input[i];
+			g_ref_grid[i % size][size + 1] = input[i];
+			//printf("%s\n", "check14");
+		i++;
+		printf("%d\n", i);
 	}
 	return (0);
 }
