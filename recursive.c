@@ -2,6 +2,30 @@ extern int **g_ref_grid;
 extern int **g_main_grid;
 extern int g_size;
 
+
+int ft_count_jumps(int target, int x, int y, int z)
+{
+	int i;
+
+	i = 0;
+	while (i < size)
+	{
+
+	}
+}
+
+int ft_check_jumps(int x, int y, int z)
+{
+	//go right
+	g_ref_grid[x][0];
+	//go down
+	g_ref_grid[0][y];
+	//go up
+	g_ref_grid[x][y + g_size];
+
+	g_ref_grid[x + g_size][y];
+}
+
 int ft_check_rules(int x, int y, int z)
 {
 	//printf("%d, %d", x, y);
@@ -28,7 +52,7 @@ int ft_check_rules(int x, int y, int z)
 		}
 		j++;
 	}
-	return (1);
+	return (ft_check_jumps) ? 1 : 0;
 }
 
 int ft_recursive(void)
