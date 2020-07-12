@@ -3,7 +3,7 @@
 
 int		**g_ref_grid;
 int		**g_main_grid;
-int		g_size = 4; //need to update
+int		g_size = 6; //need to update
 int		ft_validate_src(char *str, int size);
 int		*ft_convert_to_array(char *src, int size);
 int		ft_fill_ref_grid(int *input, int size);
