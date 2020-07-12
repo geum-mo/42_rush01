@@ -1,95 +1,44 @@
-#include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-void ft_putstr(char *str)
+int		**g_ref_grid;
+int		**g_main_grid;
+int		g_size = 4; //need to update
+int		ft_validate_src(char *str, int size);
+int		*ft_convert_to_array(char *src, int size);
+int		ft_fill_ref_grid(int *input, int size);
+int 	ft_fill_main_grid(int size);
+void	ft_putstr(char *str);
+void	ft_print_grid(int size);
+
+int		ft_solver(char *str, int size)
 {
-	while (*str)
-		write(1, str++, 1);
-}
+	int	*input_arr; // need to update [n+2][n+2]
+	int len;
 
-int ft_strlen(char *str)
-{
-	int i;
-
-	i = 0;
-	while (str[i] != '\0')
-	{
-		i++;
-	}
-	return(i);
-}
-
-int ft_check_src(char *str)
-{
-	int i;
-
-	if (ft_strlen(str) != 31)
-		return (0);
-	i = 0;
-	while (str[i] != '\0')
-	{
-		if (i != 0 && i % 2 == 1)
-		{
-			if (str[i] != ' ')
-			{
-				printf("\%s\n", "check1");
-				printf("\%c\n", str[i]);
-				return (0);
-			}
-		}
-		else
-		{
-			if (str[i] - '0' < 0 && str[i] - '0' > 5)
-			{
-				printf("\%s\n", "check2");
-				printf("\%c\n", str[i]);
-				return (0);
-			}
-		}
-		i++;
-	}
+	len = sizeof(int *) * (size + 2) + sizeof(int) * (size + 2) * (size + 2); // Allocates memory to 2d array (n x n)
+	g_ref_grid = (int **)malloc(len);
+	input_arr = ft_convert_to_array(str, size);
+	ft_fill_ref_grid(input_arr, size);
+	ft_fill_main_grid(size);
 	return (1);
 }
 
-int *ft_convert_to_array(int *dest, char *src)
+int		main(int argc, char **argv)
 {
-	int i;
-	int j;
+	int len;
+	int size;
 
-	if (ft_check_src(src) == 0)
-		return (0);
-	i = 0;
-	j = i;
-	while (i < 16)
+	len = sizeof(int *) * g_size + sizeof(int) * g_size * g_size; // Allocates memory to 2d array (n x n)
+	size = g_size;
+	g_main_grid = (int **)malloc(len);
+	if (argc != 2 || ft_validate_src(argv[1], size) == 0)
 	{
-		dest[i] = src[i + j] - '0';
-		i++;
-		j++;
-	}
-	return (dest);
-}
-
-int main(int argc, char **argv)
-{
-	int i;
-	int array[16];
-
-	// Raises an exception when no argument is passed
-	if (argc != 2)
-	{
-		ft_putstr("Error\n");
-	}
-	// Convers string to int array
-	if (ft_convert_to_array(array, argv[1]) == 0)
-	{
+		printf("%s\n", "check1");
 		ft_putstr("Error\n");
 		return (0);
 	}
-	// Tests the converting function
-	i = 0;
-	while (i < 16)
-	{
-		printf("\%d\n", array[i]);
-		i++;
-	}
+	ft_solver(argv[1], size);
+	ft_print_grid(size);
+	return (0);
 }
