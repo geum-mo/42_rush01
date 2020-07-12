@@ -36,13 +36,14 @@ int ft_fill_ref_grid(int *input, int size)
 int ft_fill_loop1(int size, int x, int y)
 {
 	int i;
-	i = 1;
 
+	i = 1;
 	if (x == 0)
 	{
 		while(i <= size)
 		{
-			g_main_grid[x + i][y] = i;
+			g_main_grid[x + i - 1][y] = i;
+			printf("%d,%d\n", x, y);
 			i++;
 		}
 	}
@@ -50,7 +51,8 @@ int ft_fill_loop1(int size, int x, int y)
 	{
 		while(i <= size)
 		{
-			g_main_grid[x][y + i] = i;
+			g_main_grid[x][y + i - 1] = i;
+			printf("%d,%d\n", x, y);
 			i++;
 		}
 	}
@@ -101,18 +103,31 @@ int ft_fill_main_grid(int size)
 
 	i = 0;
 	j = 0;
+	printf("%s\n", "check12");
 	while (i < size + 2) // n+2
 	{
 		while (j < size + 2)
 		{
 			if (g_ref_grid[i][j] == 1)
+			{
+				printf("%s\n", "check13");
 				ft_fill_if(size, i, j);
+				printf("%s\n", "check14");
+			}
 			if (g_ref_grid[i][j] == size) // 4 -> n
 			{
 				if (i == 0 || j == 0)
+				{
+					printf("%s\n", "check15");
 					ft_fill_loop1(size, i, j);
-				if (i == size + 2 || j == size + 2) // 6 -> n + 2
+					printf("%s\n", "check16");
+				}
+				if (i == size + 1 || j == size + 1) // 6 -> n + 2
+				{
+					printf("%s\n", "check17");
 					ft_fill_loop2(size, i, j);
+					printf("%s\n", "check18");
+				}
 			}
 			j++;
 		}
